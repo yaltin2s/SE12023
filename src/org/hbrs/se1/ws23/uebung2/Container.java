@@ -1,12 +1,16 @@
 package org.hbrs.se1.ws23.uebung2;
 
-import java.util.ArrayList;
+import java.util.*;
+
 
 public class Container {
 
     ArrayList<Member> MemberList= new ArrayList<>();
 
+
+
     public  void addMember(Member member) throws ContainerException {
+
         for (Member i : MemberList) {
             if (MemberList.contains(member)) {
                 throw new ContainerException("Das Member-Objekt mit der ID"
@@ -23,8 +27,11 @@ public class Container {
         }
     }
     public int size(){
+
         return MemberList.size();
     }
+
+
 
     public String deleteMember(Integer id){
         String deleted;
@@ -38,6 +45,4 @@ public class Container {
 
         return "Diese ID " + id + " ist nicht vorhanden";
     }
-
-
 }

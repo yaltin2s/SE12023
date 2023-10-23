@@ -1,21 +1,26 @@
 package org.hbrs.se1.ws23.uebung2;
 
 public class ConcreteMember implements Member{
-    private final Member M1;
-    public ConcreteMember(Member ID) {
+private Member M;
+    private Integer  ID;
 
-        M1=ID;
+    public ConcreteMember(Integer Id) {
+        ID= Id;
+
     }
-    @Override
+
+    public ConcreteMember(int i) {
+    }
+
+
+
     public String toString() {
-        return "ConcreteMember{" +
-                "M1=" + M1 +
-                '}';
-    }
 
+        return "Member (ID [" + getID() +"])";
+    }
 
     @Override
     public Integer getID() {
-        return null;
+        return ID;
     }
 }
