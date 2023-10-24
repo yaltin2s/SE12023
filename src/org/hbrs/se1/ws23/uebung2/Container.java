@@ -12,7 +12,7 @@ public class Container {
     public  void addMember(Member member) throws ContainerException {
 
         for (Member i : MemberList) {
-            if (MemberList.contains(member)) {
+            if (i.getID().equals(member.getID())) {
                 throw new ContainerException("Das Member-Objekt mit der ID"
                         + member.getID() + " ist bereits vorhanden!");
             }
@@ -35,6 +35,7 @@ public class Container {
 
     public String deleteMember(Integer id){
         String deleted;
+        //System.out.println(MemberList);
         for (Member n: MemberList) {
             if(n.getID().equals(id)){
                 deleted = "Diese ID " + id +" wird entfernt...";

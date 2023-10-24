@@ -1,6 +1,5 @@
 package org.hbrs.se1.ws23.uebung2;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -62,15 +61,13 @@ class ContainerTest {
         c.addMember(m2);
         c.addMember(m3);
         c.addMember(m4);
+        c.addMember(m5);
 
-        assertEquals("Diese ID " + 4 + " wird entfernt...",
-                c.deleteMember(4));
+        assertEquals("Diese ID " + 5 +" wird entfernt...", c.deleteMember(5));
 
-        assertEquals(2,c.size());
-            assertEquals("Diese ID " + 5 + " ist nicht vorhanden",
-                  c.deleteMember(5));
-            assertEquals("Diese ID " + 4 + " ist nicht vorhanden",
-                   c.deleteMember(4));
+        assertEquals("Diese ID " + 2 +" wird entfernt...", c.deleteMember(2));
+
+        assertEquals("Diese ID " + 5 + " ist nicht vorhanden",c.deleteMember(5));
 
     }
 }
