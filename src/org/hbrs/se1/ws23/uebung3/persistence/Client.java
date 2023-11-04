@@ -1,11 +1,10 @@
 package org.hbrs.se1.ws23.uebung3.persistence;
 
-import org.hbrs.se1.ws23.uebung2.ContainerException;
-import org.hbrs.se1.ws23.uebung2.Member;
+import org.hbrs.se1.ws23.uebung2.*;
 
 import java.util.List;
 
-import static org.hbrs.se1.ws23.uebung3.persistence.Container.*;
+
 
 
 public class Client {

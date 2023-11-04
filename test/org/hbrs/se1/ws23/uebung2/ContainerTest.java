@@ -1,73 +1,74 @@
 package org.hbrs.se1.ws23.uebung2;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.hbrs.se1.ws23.uebung3.persistence.*;
+import org.junit.jupiter.api.*;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ContainerTest {
-
     Container c;
-    Member m1, m2, m3, m4, m5;
-
-
+    PersistenceStrategy<Member> ps;
+    Member mem1,mem2,mem3;
+    List<Member> memList;
     @BeforeEach
-    void neu() {
-        c = new Container();
-        m1 = new ConcreteMember(1);
-        m2 = new ConcreteMember(2);
-        m3 = new ConcreteMember(3);
-        m4 = new ConcreteMember(4);
-        m5 = new ConcreteMember(5);
+    void setUp() {
+        c = Container.getInstance(); // Initialize the class-level field
+        ps = null;
+        mem1 = new ConcreteMember(1); // Initialize the class-level field
+        mem2 = new ConcreteMember(2); // Initialize the class-level field
+        mem3 = new ConcreteMember(3); // Initialize the class-level field
     }
 
-    @Test
-    void addMember() throws ContainerException {
-        c.addMember(m1);
-        c.addMember(m2);
-        c.addMember(m3);
-        c.addMember(m4);
-
-        assertThrows(ContainerException.class, () -> c.addMember(m4));
-    }
 
     @Test
-    void dump() throws ContainerException {
-        c.addMember(m1);
-        c.addMember(m2);
-        c.addMember(m3);
-        c.addMember(m4);
-        c.dump();
-    }
-
-    @Test
-    void size() throws ContainerException {
-        c.addMember(m1);
-        assertEquals(1, c.size());
-        c.addMember(m2);
-        assertEquals(2, c.size());
-        c.addMember(m3);
-        assertEquals(3, c.size());
-        c.addMember(m4);
-        assertEquals(4, c.size());
-        c.addMember(m5);
-        assertEquals(5, c.size());
+    void roundTripTest() throws PersistenceException,ContainerException {
+        // Objekt hinzufügen
+        Container.addMember(mem1);
+        Container.addMember(mem2);
+        Container.addMember(mem3);
+        System.out.println("after adding: \n" + c);
+        // Liste persistent abspeichern
+        ps = new PersistenceStrategyStream<Member>();
+        c.setPersistenceStrategy(ps);
+        c.store();
+        System.out.println("after store: \n" + c);
+        //Objekt aus Container löschen
+        Container.deleteMember(1);
+        Container.deleteMember(2);
+        Container.deleteMember(3);
+        System.out.println("after delete: \n" + c);
+        // Liste wieder einladen.
+        c.load();
+        memList = Container.getCurrentList();
+        System.out.println("after load: \n" + c);
 
     }
 
     @Test
-    void deleteMember() throws ContainerException {
-        c.addMember(m1);
-        c.addMember(m2);
-        c.addMember(m3);
-        c.addMember(m4);
-        c.addMember(m5);
+    void setPersistenceStrategy() throws ContainerException {
+        //Test auf Null
+        c.setPersistenceStrategy(null);
+        assertNull(c.getPersistenceStrategy());
 
-        assertEquals("Diese ID " + 5 +" wird entfernt...", c.deleteMember(5));
+        //Test auf MongoDB
+        ps = new PersistenceStrategyMongoDB();
+        c.setPersistenceStrategy(ps);
+        assertThrows(UnsupportedOperationException.class,() -> c.load());
+    }
 
-        assertEquals("Diese ID " + 2 +" wird entfernt...", c.deleteMember(2));
+    @Test
+    void store() throws PersistenceException {
+        PersistenceStrategyStream<Member> ps = new PersistenceStrategyStream();
+        c.setPersistenceStrategy(ps);
+        ps.setLocation("D:\\SE1\\src\\org\\hbrs\\se1\\ws23\\uebung3\\persistence");
+        assertThrows(PersistenceException.class, ()->c.store());
+    }
 
-        assertEquals("Diese ID " + 5 + " ist nicht vorhanden",c.deleteMember(5));
-
+    @Test
+    void load() throws PersistenceException {
+        PersistenceStrategyStream<Member> ps = new PersistenceStrategyStream();
+        c.setPersistenceStrategy(ps);
+        ps.setLocation("D:\\SE1\\src\\org\\hbrs\\se1\\ws23\\uebung3\\persistence");
+        assertThrows(PersistenceException.class, ()->c.load());
     }
 }

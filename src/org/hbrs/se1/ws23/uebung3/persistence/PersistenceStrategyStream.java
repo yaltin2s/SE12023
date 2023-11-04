@@ -18,11 +18,6 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     }
 
     @Override
-    /**
-     * Method for opening the connection to a stream (here: Input- and Output-Stream)
-     * In case of having problems while opening the streams, leave the code in methods load
-     * and save.
-     */
     public void openConnection() throws PersistenceException {
 
         try {
@@ -48,9 +43,6 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     }
 
     @Override
-    /**
-     * Method for closing the connections to a stream
-     */
     public void closeConnection() throws PersistenceException {
 
         try {
@@ -68,9 +60,6 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     }
 
     @Override
-    /**
-     * Method for saving a list of Member-objects to a disk (HDD)
-     */
     public void save(List<E> member) throws PersistenceException  {
         try{
 
@@ -86,17 +75,12 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     }
 
     @Override
-    /**
-     * Method for loading a list of Member-objects from a disk (HDD)
-     * Some coding examples come for free :-)
-     * Take also a look at the import statements above ;-!
-     */
     public List<E> load() throws PersistenceException  {
         // Some Coding hints ;-)
 
         ObjectInputStream ois = null;
         FileInputStream fis = null;
-        List<E> newListe =  null;
+        List newListe =  null;
 
         try{
             fis = new FileInputStream(location);
@@ -119,7 +103,7 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
             throw new RuntimeException("Class not found!!!",e);
         }
         if (object instanceof List<?>) {
-            newListe= (List) object;
+            newListe = (List) object;
         }
         closeConnection();
         return newListe;

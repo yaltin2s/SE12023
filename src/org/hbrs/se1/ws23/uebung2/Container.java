@@ -1,15 +1,49 @@
 package org.hbrs.se1.ws23.uebung2;
 
-import java.util.*;
+import org.hbrs.se1.ws23.uebung3.persistence.PersistenceException;
+import org.hbrs.se1.ws23.uebung3.persistence.PersistenceStrategy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Container {
 
-    ArrayList<Member> MemberList= new ArrayList<>();
+    private static Container container;
+    private static ArrayList<Member> MemberList= new ArrayList<>();
+    private PersistenceStrategy<Member> memberPersistenceStrategy;
 
 
+    // Private Constructor "Singleton Pattern"
+    private Container(){}
 
-    public  void addMember(Member member) throws ContainerException {
+    public static Container getInstance(){
+        if (container==null) {
+            synchronized ( Container.class){
+                container = new Container();
+            }
+        }
+        return container;
+    }
+
+    public static List<Member> getCurrentList() {
+
+        return MemberList;
+    }
+
+    public void setPersistenceStrategy(PersistenceStrategy<Member> p){
+        memberPersistenceStrategy = p;
+    }
+
+    public PersistenceStrategy<Member> getPersistenceStrategy (){
+        return memberPersistenceStrategy;
+    }
+
+    public String toString (){
+        return "Container{" + "psMem=" + memberPersistenceStrategy + ", memList=" + MemberList + '}';
+    }
+
+    public static void addMember(Member member) throws ContainerException {
 
         for (Member i : MemberList) {
             if (i.getID().equals(member.getID())) {
@@ -31,9 +65,7 @@ public class Container {
         return MemberList.size();
     }
 
-
-
-    public String deleteMember(Integer id){
+    public static String deleteMember(Integer id){
         String deleted;
         //System.out.println(MemberList);
         for (Member n: MemberList) {
@@ -46,4 +78,14 @@ public class Container {
 
         return "Diese ID " + id + " ist nicht vorhanden";
     }
+
+
+    public  void store() throws PersistenceException {
+        memberPersistenceStrategy.save(MemberList);
+    }
+
+    public  void load() throws PersistenceException{
+        MemberList = (ArrayList<Member>) memberPersistenceStrategy.load();
+    }
+
 }
