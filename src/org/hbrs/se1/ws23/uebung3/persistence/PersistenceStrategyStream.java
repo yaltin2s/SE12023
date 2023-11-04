@@ -1,6 +1,6 @@
 package org.hbrs.se1.ws23.uebung3.persistence;
 
-import java.util.List;
+import java.util.*;
 import  java.io.*;
 
 public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
@@ -118,6 +118,10 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Class not found!!!",e);
         }
-        return null;
+        if (object instanceof List<?>) {
+            newListe= (List) object;
+        }
+        closeConnection();
+        return newListe;
     }
 }
