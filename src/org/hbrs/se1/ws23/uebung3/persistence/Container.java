@@ -4,12 +4,13 @@ import org.hbrs.se1.ws23.uebung2.ContainerException;
 import org.hbrs.se1.ws23.uebung2.Member;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Container {
 
     private static Container container;
-    private ArrayList<Member> MemberList= new ArrayList<>();
+    private static ArrayList<Member> MemberList= new ArrayList<>();
     private PersistenceStrategy<Member> memberPersistenceStrategy;
 
 
@@ -25,6 +26,11 @@ public class Container {
         return container;
     }
 
+    public static List<Member> getCurrentList() {
+
+        return MemberList;
+    }
+
     public void setPersistenceStrategy(PersistenceStrategy<Member> p){
         memberPersistenceStrategy = p;
     }
@@ -37,7 +43,7 @@ public class Container {
         return "Container{" + "psMem=" + memberPersistenceStrategy + ", memList=" + MemberList + '}';
     }
 
-    public  void addMember(Member member) throws ContainerException {
+    public static void addMember(Member member) throws ContainerException {
 
         for (Member i : MemberList) {
             if (i.getID().equals(member.getID())) {
@@ -59,9 +65,7 @@ public class Container {
         return MemberList.size();
     }
 
-
-
-    public String deleteMember(Integer id){
+    public static String deleteMember(Integer id){
         String deleted;
         //System.out.println(MemberList);
         for (Member n: MemberList) {
@@ -83,6 +87,5 @@ public class Container {
     public  void load() throws PersistenceException{
         MemberList = (ArrayList<Member>) memberPersistenceStrategy.load();
     }
-
 
 }
