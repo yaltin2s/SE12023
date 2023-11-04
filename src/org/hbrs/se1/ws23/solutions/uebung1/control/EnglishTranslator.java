@@ -4,7 +4,7 @@ public class EnglishTranslator implements Translator {
 
 	
 	// Das initiale Array mit den Zahlen 
-	private String[] zahlen = { "one", "two", "three" , "four" };
+	private final String[] zahlen = { "one", "two", "three" , "four" };
 
 	public String date = "Okt/2020"; // Default-Wert
 
