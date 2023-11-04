@@ -9,16 +9,32 @@ import java.util.ArrayList;
 public class Container {
 
     private static Container container;
-    ArrayList<Member> MemberList= new ArrayList<>();
+    private ArrayList<Member> MemberList= new ArrayList<>();
+    private PersistenceStrategy<Member> memberPersistenceStrategy;
 
 
+    // Private Constructor "Singleton Pattern"
     private Container(){}
 
     public static Container getInstance(){
-        if (container==null)
-            container= new Container();
-
+        if (container==null) {
+            synchronized ( Container.class){
+            container = new Container();
+            }
+        }
         return container;
+    }
+
+    public void setPersistenceStrategy(PersistenceStrategy<Member> p){
+        memberPersistenceStrategy = p;
+    }
+
+    public PersistenceStrategy<Member> getPersistenceStrategy (){
+        return memberPersistenceStrategy;
+    }
+
+    public String toString (){
+        return "Container{" + "psMem=" + memberPersistenceStrategy + ", memList=" + MemberList + '}';
     }
 
     public  void addMember(Member member) throws ContainerException {
@@ -60,7 +76,13 @@ public class Container {
     }
 
 
-    public  void store() throws PersistenceException{}
+    public  void store() throws PersistenceException{
+        memberPersistenceStrategy.save(MemberList);
+    }
 
-    public  void load() throws PersistenceException{}
+    public  void load() throws PersistenceException{
+        MemberList = (ArrayList<Member>) memberPersistenceStrategy.load();
+    }
+
+
 }

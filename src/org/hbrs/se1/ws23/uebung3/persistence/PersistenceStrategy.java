@@ -1,5 +1,6 @@
 package org.hbrs.se1.ws23.uebung3.persistence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,7 +8,6 @@ import java.util.List;
  * Each concrete algorithm (i.e. strategy) must implement this method
  * This interface corresponds to the abstract strategy w.r.t. to the
  * Strategy Design Pattern (GoF).
- *
  * The following protocol applies:
  * 1. openConnection
  * 2. { load | save }  (many times)
@@ -20,4 +20,6 @@ public interface PersistenceStrategy<E> {
     public void closeConnection() throws PersistenceException;
     public void save(List<E> member) throws PersistenceException;
     public List<E> load() throws PersistenceException;
+
+    void save(ArrayList<E> memberList);
 }
