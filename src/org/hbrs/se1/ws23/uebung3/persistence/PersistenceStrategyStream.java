@@ -124,4 +124,9 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
         closeConnection();
         return newListe;
     }
+
+    @Override
+    public void save(ArrayList<E> memberList) {
+
+    }
 }
