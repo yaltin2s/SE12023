@@ -70,7 +70,7 @@ public class Container {
 
 	/**
 	 * Methode zur Rückgabe der aktuellen Liste mit Stories
-	 * Findet aktuell keine Anwendung bei Hr. P.
+	 * findet aktuell keine Anwendung bei Hr. P.
 	 * @return
 	 */
 	public List<UserStory> getCurrentList() {
