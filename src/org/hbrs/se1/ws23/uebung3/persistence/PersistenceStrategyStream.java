@@ -78,9 +78,8 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
     public List<E> load() throws PersistenceException  {
         // Some Coding hints ;-)
 
-        ObjectInputStream ois = null;
-        FileInputStream fis = null;
-        List newListe =  null;
+        ObjectInputStream ois = null;        FileInputStream fis = null;
+        List newListe = null;
 
         try{
             fis = new FileInputStream(location);

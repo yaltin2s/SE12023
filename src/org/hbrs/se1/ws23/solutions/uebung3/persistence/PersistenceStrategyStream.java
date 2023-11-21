@@ -108,7 +108,7 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
             throw new PersistenceException( PersistenceException.ExceptionType.LoadFailure , "Fehler beim Laden der Datei!");
         }
         catch (ClassNotFoundException e) {
-            // Chain of Responsbility erfuellt, durch Throw der Exceotion kann UI
+            // Chain of Responsibility erfuellt, durch Throw der Exception kann UI
             // benachrichtigt werden!
             throw new PersistenceException( PersistenceException.ExceptionType.LoadFailure , "Fehler beim Laden der Datei! Class not found!");
         }

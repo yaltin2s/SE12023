@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ContainerTest {
     Container c;
-    PersistenceStrategy<Member> ps;
+    PersistenceStrategyMongoDB ps;
     Member mem1,mem2,mem3;
     List<Member> memList;
     @BeforeEach
@@ -28,7 +28,7 @@ class ContainerTest {
         Container.addMember(mem3);
         System.out.println("after adding: \n" + c);
         // Liste persistent abspeichern
-        ps = new PersistenceStrategyStream<Member>();
+        ps = new PersistenceStrategyMongoDB ();
         c.setPersistenceStrategy(ps);
         c.store();
         System.out.println("after store: \n" + c);
@@ -38,7 +38,7 @@ class ContainerTest {
         Container.deleteMember(3);
         System.out.println("after delete: \n" + c);
         // Liste wieder einladen.
-        c.load();
+        c.load ();
         memList = Container.getCurrentList();
         System.out.println("after load: \n" + c);
 
@@ -46,13 +46,13 @@ class ContainerTest {
 
     @Test
     void setPersistenceStrategy() throws ContainerException {
-        //Test auf Null
+        //Test auf null
         c.setPersistenceStrategy(null);
         assertNull(c.getPersistenceStrategy());
 
         //Test auf MongoDB
         ps = new PersistenceStrategyMongoDB();
-        c.setPersistenceStrategy(ps);
+        c.setPersistenceStrategy( ps);
         assertThrows(UnsupportedOperationException.class,() -> c.load());
     }
 
